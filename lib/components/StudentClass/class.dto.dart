@@ -3,5 +3,9 @@ class StudentClass {
   String place; // sala 3 - anexo a
   String classname; // Gestão de projetos
 
-  StudentClass(this.acronym, this.place, this.classname);
+  StudentClass({
+    required this.acronym,
+    required this.place,
+    required this.classname
+  });
 }

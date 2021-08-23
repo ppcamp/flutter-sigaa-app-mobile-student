@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:sigaa_student/components/StudentClass/class.type.dart';
+import 'package:sigaa_student/components/StudentClass/class.dto.dart';
 
 // ClassScreen the statefulwidget
 class ClassScreen extends StatefulWidget {
@@ -16,12 +16,22 @@ class _ClassScreenState extends State<ClassScreen> {
   Widget build(BuildContext context) {
     if (_items.isEmpty) {
       _items.addAll([
-        StudentClass("ECOI20", "Prédio 2 - sala 3", "GESTÃO DE PROJETOS"),
-        StudentClass("ECOI26", "Prédio 1 - sala 1", "COMPILADORES"),
-        StudentClass("ECAI05", "Prédio 2 - sala 3",
-            "LABORATÓRIO DE SISTEMAS DE CONTROLE I"),
-        StudentClass("ECOI24", "Prédio 2 - sala 3",
-            "COMPUTAÇÃO GRÁFICA E PROCESSAMENTO DIGITAL DE IMAGENS"),
+        StudentClass(
+          acronym:  "ECOI20",
+          place:  "Prédio 2 - sala 3",
+          classname:  "GESTÃO DE PROJETOS"),
+        StudentClass(
+          acronym: "ECOI26",
+          place: "Prédio 1 - sala 1",
+          classname: "COMPILADORES"),
+        StudentClass(
+          acronym: "ECAI05",
+          place: "Prédio 2 - sala 3",
+          classname: "LABORATÓRIO DE SISTEMAS DE CONTROLE I"),
+        StudentClass(
+          acronym: "ECOI24",
+          place: "Prédio 2 - sala 3",
+          classname: "COMPUTAÇÃO GRÁFICA E PROCESSAMENTO DIGITAL DE IMAGENS"),
       ]);
     }
     return Scaffold(
