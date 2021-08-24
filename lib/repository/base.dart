@@ -7,11 +7,11 @@ const DB_NAME = "StudentSigaaLocal";
 
 // https://flutter.dev/docs/cookbook/persistence/sqlite
 class Store {
-  Future<Database>? database;
+  late Database database;
 
-  initialize(String createQuery) async {
+  Future initialize(String createQuery) async {
     // Open the database and store the reference.
-    this.database = openDatabase(
+    this.database = await openDatabase(
       // Set the path to the database. Note: Using the `join` function from the
       // `path` package is best practice to ensure the path is correctly
       // constructed for each platform.
@@ -28,3 +28,13 @@ class Store {
   }
 }
 
+// abstract class StoreCrud {
+//   Future<void> create(dynamic any) async {}
+// }
+
+class FindQuery {
+  int offset;
+  int limit;
+
+  FindQuery({this.offset = 0, this.limit = -1});
+}

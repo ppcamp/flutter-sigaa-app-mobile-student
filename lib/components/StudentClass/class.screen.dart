@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sigaa_student/components/StudentClass/class.dto.dart';
+import 'package:sigaa_student/repository/student_class.dart';
 
 // ClassScreen the statefulwidget
 class ClassScreen extends StatefulWidget {
@@ -10,29 +11,29 @@ class ClassScreen extends StatefulWidget {
 
 // _ClassScreenState is the stateless object
 class _ClassScreenState extends State<ClassScreen> {
-  final _items = <StudentClass>[];
+  final _items = <StudentClassDTO>[];
+  final StudentClassStore store = StudentClassStore();
+
+  @override
+  void initState() {
+    super.initState();
+
+    init();
+  }
+
+  // init function
+  Future init() async {
+    await store.init();
+    final items = await store.getAll();
+    setState(() {
+      this._items.addAll(items);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     if (_items.isEmpty) {
-      _items.addAll([
-        StudentClass(
-          acronym:  "ECOI20",
-          place:  "Prédio 2 - sala 3",
-          classname:  "GESTÃO DE PROJETOS"),
-        StudentClass(
-          acronym: "ECOI26",
-          place: "Prédio 1 - sala 1",
-          classname: "COMPILADORES"),
-        StudentClass(
-          acronym: "ECAI05",
-          place: "Prédio 2 - sala 3",
-          classname: "LABORATÓRIO DE SISTEMAS DE CONTROLE I"),
-        StudentClass(
-          acronym: "ECOI24",
-          place: "Prédio 2 - sala 3",
-          classname: "COMPUTAÇÃO GRÁFICA E PROCESSAMENTO DIGITAL DE IMAGENS"),
-      ]);
+      _items.addAll([]);
     }
     return Scaffold(
       body: _buildItemsList(),
