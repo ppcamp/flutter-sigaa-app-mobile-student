@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:sigaa_student/views/ClassFocused/class_focused.dart';
-import 'package:sigaa_student/views/Dashboard/dashboard.dto.dart';
-import 'package:sigaa_student/repository/student_class.dart';
+import 'package:hive/hive.dart';
+import 'package:sigaa_student/views/class_focused.dart';
+import 'package:sigaa_student/models/subjects/subjects.dart';
 
 // ClassScreen the statefulwidget
 class DashboardScreen extends StatefulWidget {
@@ -14,11 +14,21 @@ class DashboardScreen extends StatefulWidget {
 
 // _ClassScreenState is the stateless object
 class _DashboardScreenState extends State<DashboardScreen> {
-  final _items = <StudentClassDTO>[];
-  final StudentClassStore store = StudentClassStore();
+  final _items = <Subjects>[];
+  late Box<Subjects> _box;
+
+  @override
+  void dispose() {
+    Hive.box(Subjects.boxName).close();
+
+    super.dispose();
+  }
 
   @override
   void initState() {
+    Hive.openBox<Subjects>(Subjects.boxName);
+    this._box = Hive.box<Subjects>(Subjects.boxName);
+
     super.initState();
 
     init();
@@ -26,10 +36,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   // init function
   Future init() async {
-    await store.init();
-    final items = await store.getAll();
     setState(() {
-      this._items.addAll(items);
+      this._items.addAll(this._box.values);
     });
   }
 
@@ -65,10 +73,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 // Update the state of the app.
                 // ...
                 // Then close the drawer
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => ClassFocused())
-                );
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => ClassFocused()));
               },
             ),
             ListTile(

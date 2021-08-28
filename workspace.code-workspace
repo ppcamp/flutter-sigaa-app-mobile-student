@@ -1,0 +1,77 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			"**/.git": true,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/CVS": true,
+			"**/.DS_Store": true,
+			".*": true,
+			"build":true,
+			"gen":true,
+			"pubspec.lock":true,
+			"**/*.g.dart":true
+		}
+	},
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"type": "shell",
+				"command": "flutter",
+				"args": [
+					"packages",
+					"pub",
+					"run",
+					"build_runner",
+					"build"
+				],
+				"group": "build",
+				"label": "flutter: generate dto hive"
+			},
+			{
+				"type": "flutter",
+				"command": "flutter",
+				"args": [
+					"build",
+					"apk"
+				],
+				"group": "build",
+				"problemMatcher": [],
+				"label": "flutter: flutter build apk"
+			},
+			{
+				"type": "flutter",
+				"command": "flutter",
+				"args": [
+					"pub",
+					"get"
+				],
+				"problemMatcher": [],
+				"label": "flutter: flutter pub get"
+			},
+			{
+				"type": "flutter",
+				"command": "flutter",
+				"args": [
+					"pub",
+					"upgrade"
+				],
+				"problemMatcher": [],
+				"label": "flutter: flutter pub upgrade"
+			},
+			{
+				"type": "dart",
+				"command": "dartdoc",
+				"args": [],
+				"problemMatcher": [],
+				"label": "dart: dartdoc"
+			}
+		]
+	}
+}
