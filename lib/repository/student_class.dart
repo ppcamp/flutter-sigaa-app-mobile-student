@@ -1,4 +1,4 @@
-import 'package:sigaa_student/components/StudentClass/class.dto.dart';
+import 'package:sigaa_student/views/Dashboard/dashboard.dto.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'base.dart';

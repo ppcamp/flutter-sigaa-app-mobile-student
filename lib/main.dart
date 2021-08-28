@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sigaa_student/components/StudentClass/class.screen.dart';
+import 'package:sigaa_student/config/base.dart';
+import 'package:sigaa_student/config/routes/routes.dart';
+import 'package:sigaa_student/config/themes/config.dart';
+import 'package:sigaa_student/views/Dashboard/dashboard.dto.dart';
 import 'package:sigaa_student/repository/student_class.dart';
-
-import 'components/StudentClass/class.dto.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,9 +38,10 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'SIGAA student',
-      home: ClassScreen(),
+    return buildApp(
+      appName: "SIGAA student",
+      theme: getTheme(),
+      routes: getRoutes(),
     );
   }
 }
