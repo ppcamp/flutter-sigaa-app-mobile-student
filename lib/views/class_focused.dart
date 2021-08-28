@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sigaa_student/config/routes/router.dart';
+import 'package:sigaa_student/config/routes/routes.dart';
 
 class ClassFocused extends StatelessWidget {
   static const id = "Screen_to_show_specific_class_info";
@@ -13,10 +15,12 @@ class ClassFocused extends StatelessWidget {
       ),
       body: Center(
         child: ElevatedButton(
-          onPressed: () {
-            // Navigate to the second screen when tapped.
-          },
-          child: const Text('Launch screen'),
+          child: const Text('Home screen'),
+          onPressed: ()=> AppRouter.router.navigateTo(
+            context,
+            AppRoutes.rootRoute.route,
+            replace: true,
+          )
         ),
       ),
     );

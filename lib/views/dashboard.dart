@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
-import 'package:sigaa_student/views/class_focused.dart';
+import 'package:sigaa_student/components/scaffold/scaffold.dart';
 import 'package:sigaa_student/models/subjects/subjects.dart';
 
 // ClassScreen the statefulwidget
@@ -19,23 +19,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   void dispose() {
-    Hive.box(Subjects.boxName).close();
+    this._box.close();
 
     super.dispose();
   }
 
   @override
   void initState() {
-    Hive.openBox<Subjects>(Subjects.boxName);
-    this._box = Hive.box<Subjects>(Subjects.boxName);
-
-    super.initState();
-
     init();
+    super.initState();
   }
 
-  // init function
-  Future init() async {
+  void init() async {
+    if (!Hive.isBoxOpen(Subjects.boxName)) {
+      await Hive.openBox<Subjects>(Subjects.boxName);
+    }
+
+    this._box = Hive.box<Subjects>(Subjects.boxName);
+
     setState(() {
       this._items.addAll(this._box.values);
     });
@@ -46,50 +47,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     if (_items.isEmpty) {
       _items.addAll([]);
     }
-    return Scaffold(
-      body: _buildItemsList(),
-      appBar: AppBar(
-          title: Text(
-            'Turmas',
-            style: TextStyle(color: Theme.of(context).accentColor),
-          ),
-          backwardsCompatibility: false,
-          elevation: 0,
-          backgroundColor: Theme.of(context).backgroundColor,
-          foregroundColor: Theme.of(context).accentColor),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text('User'),
-            ),
-            ListTile(
-              title: const Text('Item 1'),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-                // Then close the drawer
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => ClassFocused()));
-              },
-            ),
-            ListTile(
-              title: const Text('Item 2'),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+    return getScaffold(context: context, body: _buildItemsList());
   }
 
   // _buildItemList does a mapping for each row

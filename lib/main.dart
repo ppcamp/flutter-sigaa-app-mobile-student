@@ -4,15 +4,26 @@ import 'package:sigaa_student/config/themes/config.dart';
 import 'package:sigaa_student/models/subjects/subjects.dart';
 import 'package:sigaa_student/views/dashboard.dart';
 
+import 'config/routes/router.dart';
+import 'config/routes/routes.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  final route = AppRouter(
+      routes: AppRoutes.routes,
+      notFoundHandler: AppRoutes.routeNotFoundHandler);
+  route.setupRoutes();
+
   await Hive.initFlutter();
 
+  // Setting up the adapters (needed to handle with data stored locally)
   Hive..registerAdapter(SubjectsAdapter());
 
   //#region mocking boxes
-  await Hive.openBox<Subjects>(Subjects.boxName);
+  if (!Hive.isBoxOpen(Subjects.boxName)) {
+    await Hive.openBox<Subjects>(Subjects.boxName);
+  }
 
   final box = Hive.box<Subjects>(Subjects.boxName);
   if (box.isEmpty) {
@@ -35,6 +46,7 @@ void main() async {
           classname: "COMPUTAÇÃO GRÁFICA E PROCESSAMENTO DIGITAL DE IMAGENS")
     ]);
   }
+  box.close();
   //#endregion
 
   return runApp(MyApp());

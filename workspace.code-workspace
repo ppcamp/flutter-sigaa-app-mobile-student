@@ -21,6 +21,7 @@
 	"tasks": {
 		"version": "2.0.0",
 		"tasks": [
+			// Shell scripts
 			{
 				"type": "shell",
 				"command": "flutter",
@@ -34,8 +35,21 @@
 				"group": "build",
 				"label": "flutter: generate dto hive"
 			},
+
+			// Building and release
 			{
-				"type": "flutter",
+				"type": "shell",
+				"command": "flutter",
+				"args": [
+					"run",
+					"--release"
+				],
+				"group": "build",
+				"problemMatcher": [],
+				"label": "flutter: flutter run release mode"
+			},
+			{
+				"type": "shell",
 				"command": "flutter",
 				"args": [
 					"build",
@@ -45,8 +59,10 @@
 				"problemMatcher": [],
 				"label": "flutter: flutter build apk"
 			},
+
+			// Upgrading and downloading
 			{
-				"type": "flutter",
+				"type": "shell",
 				"command": "flutter",
 				"args": [
 					"pub",
@@ -56,7 +72,7 @@
 				"label": "flutter: flutter pub get"
 			},
 			{
-				"type": "flutter",
+				"type": "shell",
 				"command": "flutter",
 				"args": [
 					"pub",
@@ -65,13 +81,15 @@
 				"problemMatcher": [],
 				"label": "flutter: flutter pub upgrade"
 			},
+
+			// Documentation
 			{
 				"type": "dart",
 				"command": "dartdoc",
 				"args": [],
 				"problemMatcher": [],
 				"label": "dart: dartdoc"
-			}
+			},
 		]
 	}
 }
