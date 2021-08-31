@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:sigaa_student/config/themes/config.dart';
+import 'package:sigaa_student/models/login/login.dart';
 import 'package:sigaa_student/models/subjects/subjects.dart';
+import 'package:sigaa_student/services/network/scrappers.dart';
 import 'package:sigaa_student/views/dashboard.dart';
 
 import 'config/routes/router.dart';
@@ -9,6 +11,8 @@ import 'config/routes/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Scrappers.doLogin(LoginPayload(login: "12638891665", password: "!iz!Qr9PN6thnh7"));
 
   final route = AppRouter(
       routes: AppRoutes.routes,
@@ -27,6 +31,7 @@ void main() async {
 
   final box = Hive.box<Subjects>(Subjects.boxName);
   if (box.isEmpty) {
+    print("Box is empty. Assigning it");
     box.addAll([
       Subjects(
           acronym: "ECOI20",
@@ -47,6 +52,7 @@ void main() async {
     ]);
   }
   box.close();
+  print("Box closed");
   //#endregion
 
   return runApp(MyApp());
