@@ -92,14 +92,47 @@ class Scrappers {
     // r = await handleRedirects(r, 302);
 
     // get only body
-    // var body = bodyRegex.allMatches(r.data).elementAt(0).group(1);
-    // print(body);
+    var body = bodyRegex.allMatches(htext).elementAt(0).group(1);
+    print(body);
 
     // TODO tem uma url href que não tem as aspas duplas, tenho que atualizar
     // TODO tem
     // // Get hidden inputs
 
-    final fixedhtml = html5.parse("""
+    final fixedhtml = html5.parse(body);
+    // String id = tree
+    //     .findAllElements('input')
+    //     .firstWhere((element) =>
+    //         element.getAttribute('id') == 'menu:form_menu_discente')
+    //     .children
+    //     .firstWhere((element) => element.getAttribute('name') == 'id')
+    //     .getAttribute('value')
+    //     .toString();
+
+    // final data = {
+    //   "menu:form_menu_discente": "menu:form_menu_discente",
+    //   "id": id,
+    //   // "id": tree
+    //   //     .xpath('//*[@id="menu:form_menu_discente"]/input[@name="id"]')
+    //   //     .toList(),
+    //   // "jscook_action": tree
+    //   //         .xpath('//*[@id="menu:form_menu_discente"]/div/@id')[0]
+    //   //         .toString() +
+    //   //     ':A]#{ curriculo.popularBuscaGeral }',
+    //   // "javax.faces.ViewState": tree
+    //   //     .xpath(
+    //   //         '//*[@id="menu:form_menu_discente"]/input[@name="javax.faces.ViewState"]/@value')[0]
+    //   //     .toString(),
+    // };
+
+    // print(data);
+    final html = fixedhtml.querySelector('#menu:form_menu_discente > input[type=hidden]')!;
+
+    // var tree = XmlDocument.parse(fixedhtml.outerHtml);
+    print(html.text);
+  }
+
+  static String htext = """
 
 
 
@@ -1481,35 +1514,5 @@ class Scrappers {
 
 
 
-      """);
-    // String id = tree
-    //     .findAllElements('input')
-    //     .firstWhere((element) =>
-    //         element.getAttribute('id') == 'menu:form_menu_discente')
-    //     .children
-    //     .firstWhere((element) => element.getAttribute('name') == 'id')
-    //     .getAttribute('value')
-    //     .toString();
-
-    // final data = {
-    //   "menu:form_menu_discente": "menu:form_menu_discente",
-    //   "id": id,
-    //   // "id": tree
-    //   //     .xpath('//*[@id="menu:form_menu_discente"]/input[@name="id"]')
-    //   //     .toList(),
-    //   // "jscook_action": tree
-    //   //         .xpath('//*[@id="menu:form_menu_discente"]/div/@id')[0]
-    //   //         .toString() +
-    //   //     ':A]#{ curriculo.popularBuscaGeral }',
-    //   // "javax.faces.ViewState": tree
-    //   //     .xpath(
-    //   //         '//*[@id="menu:form_menu_discente"]/input[@name="javax.faces.ViewState"]/@value')[0]
-    //   //     .toString(),
-    // };
-
-    // print(data);
-    final html  = fixedhtml.querySelector(selector)
-    var tree = XmlDocument.parse(fixedhtml.outerHtml);
-    print("a");
-  }
+      """;
 }
