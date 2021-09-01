@@ -34,13 +34,26 @@
 			},
 			{
 				"type": "shell",
+				"command": "dart",
+				"args": [
+					"pub",
+					"outdated",
+					"--mode=null-safety"
+				],
+				"group": "none",
+				"label": "dart: check nullsafety",
+				"problemMatcher": []
+			},
+			{
+				"type": "shell",
 				"command": "flutter",
 				"args": [
 					"packages",
 					"pub",
 					"run",
 					"build_runner",
-					"build"
+					"build",
+					"--delete-conflicting-outputs"
 				],
 				"group": "build",
 				"label": "flutter: generate dto hive"
