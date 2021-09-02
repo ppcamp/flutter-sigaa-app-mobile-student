@@ -1,40 +1,30 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'subjects.dart';
+part of 'firstrun.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class SubjectsAdapter extends TypeAdapter<Subjects> {
+class FirstRunAdapter extends TypeAdapter<FirstRun> {
   @override
-  final int typeId = 1;
+  final int typeId = 0;
 
   @override
-  Subjects read(BinaryReader reader) {
+  FirstRun read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Subjects(
-      acronym: fields[1] as String,
-      place: fields[2] as String,
-      classname: fields[3] as String,
-    )..id = fields[0] as String?;
+    return FirstRun()..isConfigured = fields[0] as bool;
   }
 
   @override
-  void write(BinaryWriter writer, Subjects obj) {
+  void write(BinaryWriter writer, FirstRun obj) {
     writer
-      ..writeByte(4)
-      ..writeByte(0)
-      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.acronym)
-      ..writeByte(2)
-      ..write(obj.place)
-      ..writeByte(3)
-      ..write(obj.classname);
+      ..writeByte(0)
+      ..write(obj.isConfigured);
   }
 
   @override
@@ -43,7 +33,7 @@ class SubjectsAdapter extends TypeAdapter<Subjects> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SubjectsAdapter &&
+      other is FirstRunAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

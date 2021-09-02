@@ -8,7 +8,7 @@ part of 'systemurls.dart';
 
 class SystemUrlsAdapter extends TypeAdapter<SystemUrls> {
   @override
-  final int typeId = 0;
+  final int typeId = 2;
 
   @override
   SystemUrls read(BinaryReader reader) {

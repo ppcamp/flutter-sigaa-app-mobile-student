@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 
 part "subjects.g.dart";
 
-@HiveType(typeId: 0)
+@HiveType(typeId: 1)
 class Subjects extends HiveObject {
   static const boxName = 'subjectsBox';
 

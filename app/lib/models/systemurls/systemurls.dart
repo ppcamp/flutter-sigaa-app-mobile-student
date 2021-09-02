@@ -2,9 +2,9 @@ import 'package:hive/hive.dart';
 
 part "systemurls.g.dart";
 
-@HiveType(typeId: 0)
+@HiveType(typeId: 2)
 class SystemUrls extends HiveObject {
-  static const boxName = 'subjectsBox';
+  static const boxName = 'systemurlsBox';
 
   SystemUrls({required this.url, required this.location});
 
