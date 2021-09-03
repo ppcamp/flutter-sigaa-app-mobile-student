@@ -3,11 +3,10 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:sigaa_student/config/setup/onStartup.dart';
 import 'package:sigaa_student/config/themes/config.dart';
 import 'package:sigaa_student/models/firstrun/firstrun.dart';
-import 'package:sigaa_student/models/login/login.dart';
 import 'package:sigaa_student/models/subjects/subjects.dart';
 import 'package:sigaa_student/models/systemurls/systemurls.dart';
 import 'package:sigaa_student/services/network/scrappers.dart';
-import 'package:sigaa_student/views/dashboard.dart';
+import 'package:sigaa_student/views/Dashboard.dart';
 
 import 'config/routes/router.dart';
 import 'config/routes/routes.dart';
@@ -27,9 +26,10 @@ void main() async {
   // debugging
   final spyder = Scrappers();
   await spyder.setUrls();
-  await spyder.doLogin(LoginPayload(
-    login: "12638891665",
-    password: "!iz!Qr9PN6thnh7"));
+  // await spyder.doLogin(LoginPayload(
+  //   login: "12638891665",
+  //   password: "!iz!Qr9PN6thnh7"));
+  await spyder.getHomeClasses();
 
   // Setting app the router
   final route = AppRouter(

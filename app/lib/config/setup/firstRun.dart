@@ -32,6 +32,9 @@ Future<void> firstRun() async {
           url:
               'https://sigaa.unifei.edu.br/sigaa/geral/componente_curricular/busca_geral.jsf',
           location: 'component'),
+      SystemUrls(
+          url: 'https://sigaa.unifei.edu.br/sigaa/portais/discente/turmas.jsf',
+          location: 'subjects'),
     ]);
   }
   urls.close();
@@ -42,26 +45,28 @@ Future<void> firstRun() async {
     await Hive.openBox<Subjects>(Subjects.boxName);
   }
   final subjects = Hive.box<Subjects>(Subjects.boxName);
-  if (subjects.isEmpty) {
+  if (subjects.isNotEmpty) {
     print("subjects is empty. Assigning it");
-    subjects.addAll([
-      Subjects(
-          acronym: "ECOI20",
-          place: "Prédio 2 - sala 3",
-          classname: "GESTÃO DE PROJETOS"),
-      Subjects(
-          acronym: "ECOI26",
-          place: "Prédio 1 - sala 1",
-          classname: "COMPILADORES"),
-      Subjects(
-          acronym: "ECAI05",
-          place: "Prédio 2 - sala 3",
-          classname: "LABORATÓRIO DE SISTEMAS DE CONTROLE I"),
-      Subjects(
-          acronym: "ECOI24",
-          place: "Prédio 2 - sala 3",
-          classname: "COMPUTAÇÃO GRÁFICA E PROCESSAMENTO DIGITAL DE IMAGENS")
-    ]);
+    //   subjects.addAll([
+    //     Subjects(
+    //         acronym: "ECOI20",
+    //         place: "Prédio 2 - sala 3",
+    //         classname: "GESTÃO DE PROJETOS"),
+    //     Subjects(
+    //         acronym: "ECOI26",
+    //         place: "Prédio 1 - sala 1",
+    //         classname: "COMPILADORES"),
+    //     Subjects(
+    //         acronym: "ECAI05",
+    //         place: "Prédio 2 - sala 3",
+    //         classname: "LABORATÓRIO DE SISTEMAS DE CONTROLE I"),
+    //     Subjects(
+    //         acronym: "ECOI24",
+    //         place: "Prédio 2 - sala 3",
+    //         classname: "COMPUTAÇÃO GRÁFICA E PROCESSAMENTO DIGITAL DE IMAGENS")
+    //   ]);
+    subjects.deleteFromDisk();
+    subjects.clear();
   }
   subjects.close();
   //#endregion

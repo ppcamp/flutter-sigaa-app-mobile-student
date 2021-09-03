@@ -47,7 +47,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     if (_items.isEmpty) {
       _items.addAll([]);
     }
-    return getScaffold(context: context, body: _buildItemsList());
+    return getScaffold(
+        title: 'Turmas', context: context, body: _buildItemsList());
   }
 
   // _buildItemList does a mapping for each row
@@ -75,6 +76,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       return ListView.builder(
         padding: const EdgeInsets.all(16.0),
         itemBuilder: (context, i) {
+          final String place = "test"; //_items[i].place;
+          final String title = "teste"; // _items[i].acronym ?? "NONE";
+          final String subtitle = "teste"; // _items[i].classname;
+
           return Card(
               child: InkWell(
                   splashColor: Colors.blue.withAlpha(30),
@@ -97,19 +102,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      _items[i].acronym,
+                                      title,
                                       textScaleFactor: 1.5,
                                       style: TextStyle(
                                           color: Colors.deepPurple,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      _items[i].place,
+                                      place,
                                       textAlign: TextAlign.right,
                                     )
                                   ]),
                               Text(
-                                _items[i].classname,
+                                subtitle,
                                 style: TextStyle(color: Colors.grey),
                               ),
                             ]))),

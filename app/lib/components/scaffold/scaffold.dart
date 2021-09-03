@@ -9,10 +9,10 @@ import 'package:sigaa_student/components/scaffold/menu_drawer.dart';
 getScaffold({
   required BuildContext context,
   required Widget body,
+  required String title,
 }) {
   return Scaffold(
       body: body,
-      appBar: getAppBar(context, 'Turmas'),
-      drawer: getAppDrawer(context)
-    );
+      appBar: getAppBar(context, title),
+      drawer: getAppDrawer(context));
 }
