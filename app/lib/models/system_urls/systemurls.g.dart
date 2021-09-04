@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'systemurls.dart';
+part of 'system_urls.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator

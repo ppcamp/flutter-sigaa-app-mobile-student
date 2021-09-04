@@ -15,11 +15,15 @@ class AppRoutes {
   // will send the user to the calendar view
   static final gridView =
       AppRoute('/grid', handleGrid, transitionType: TransitionType.cupertino);
+  // will send the user to the calendar view
+  static final loginScren = AppRoute('/login', handleLoginScreen,
+      transitionType: TransitionType.cupertino);
 
   static final List<AppRoute> routes = [
     rootRoute,
     classFocused,
     subjectCalendar,
-    gridView
+    gridView,
+    loginScren
   ];
 }

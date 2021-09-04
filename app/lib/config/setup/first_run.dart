@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:sigaa_student/models/subjects/subjects.dart';
-import 'package:sigaa_student/models/systemurls/systemurls.dart';
+import 'package:sigaa_student/models/system_urls/system_urls.dart';
 
 // firstRun will be the functions that will be called once to configure the
 // device

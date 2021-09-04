@@ -1,9 +1,10 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:sigaa_student/views/Calendar.dart';
-import 'package:sigaa_student/views/ClassFocused.dart';
-import 'package:sigaa_student/views/Dashboard.dart';
-import 'package:sigaa_student/views/Grid.dart';
+import 'package:sigaa_student/views/calendar.dart';
+import 'package:sigaa_student/views/class_focused.dart';
+import 'package:sigaa_student/views/dashboard.dart';
+import 'package:sigaa_student/views/grid.dart';
+import 'package:sigaa_student/views/login.dart';
 import 'package:sigaa_student/views/not_found.dart';
 
 final handleNotFound = Handler(
@@ -26,4 +27,8 @@ final handleSubjectCalendar = Handler(
 
 final handleGrid = Handler(
   handlerFunc: (context, parameters) => Grid(),
+);
+
+final handleLoginScreen = Handler(
+  handlerFunc: (context, parameters) => LoginScreen(),
 );

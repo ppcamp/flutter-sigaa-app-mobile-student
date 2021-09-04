@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
-import 'package:sigaa_student/config/setup/firstRun.dart';
-import 'package:sigaa_student/models/firstrun/firstrun.dart';
+import 'package:sigaa_student/config/setup/first_run.dart';
+import 'package:sigaa_student/models/first_run/first_run.dart';
 
 // onStartup is the function that will check if the app is running for the first
 // time in this phone

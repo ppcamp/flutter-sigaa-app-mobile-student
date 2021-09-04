@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'firstrun.dart';
+part of 'first_run.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
