@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sigaa_student/components/scaffold/scaffold.dart';
 
 class Grid extends StatelessWidget {
-  static const id = "Screen_to_show_specific_class_info";
-
   const Grid({Key? key}) : super(key: key);
 
   @override

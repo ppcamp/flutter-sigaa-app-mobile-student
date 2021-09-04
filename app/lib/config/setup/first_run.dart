@@ -45,7 +45,7 @@ Future<void> firstRun() async {
     await Hive.openBox<Subjects>(Subjects.boxName);
   }
   final subjects = Hive.box<Subjects>(Subjects.boxName);
-  if (subjects.isNotEmpty) {
+  if (subjects.isEmpty) {
     print("subjects is empty. Assigning it");
     //   subjects.addAll([
     //     Subjects(
@@ -65,8 +65,6 @@ Future<void> firstRun() async {
     //         place: "Prédio 2 - sala 3",
     //         classname: "COMPUTAÇÃO GRÁFICA E PROCESSAMENTO DIGITAL DE IMAGENS")
     //   ]);
-    subjects.deleteFromDisk();
-    subjects.clear();
   }
   subjects.close();
   //#endregion

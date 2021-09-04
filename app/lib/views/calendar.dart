@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sigaa_student/components/scaffold/scaffold.dart';
 
 class Calendar extends StatelessWidget {
-  static const id = "Screen_to_show_specific_class_info";
-
   const Calendar({Key? key}) : super(key: key);
 
   @override

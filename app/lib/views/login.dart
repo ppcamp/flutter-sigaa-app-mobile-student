@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:sigaa_student/components/fields/text_input.dart';
 import 'package:sigaa_student/config/routes/router.dart';
 import 'package:sigaa_student/config/routes/routes.dart';
 import 'package:sigaa_student/models/login/login.dart';
 import 'package:sigaa_student/services/network/scrappers.dart';
+import 'package:sigaa_student/utils/images.dart';
 import 'package:sigaa_student/utils/validators.dart';
 
 class LoginScreen extends StatefulWidget {
-  static const id = "Screen_used_to_connect";
-
   @override
   State<LoginScreen> createState() => _LoginScreen();
 }
@@ -38,28 +38,36 @@ class _LoginScreen extends State<LoginScreen> {
   /// The variable that will make the system's connection
   late Scrappers system;
 
+  /// will be used to show/hide the login loading object
+  late bool _doingLogin;
+
   @override
   void initState() {
     _backgroundImage = AssetImage("assets/images/EFEI_logo.png");
     _invalid = false;
     _invalidCpf = false;
+    _doingLogin = false;
     _passwordController = TextEditingController();
     _userController = TextEditingController();
     _password = "";
     _user = "";
-    system = Scrappers();
+    system = Scrappers()..setup();
 
     _passwordController.addListener(() {
       _password = _passwordController.text;
     });
     _userController.addListener(() {
       _user = _userController.text;
-      _invalidCpf = false;
+      var inv = false;
 
       if ((_user.length == 11) && (!validateCPF(_user))) {
-        _invalidCpf = true;
+        inv = true;
         print("cpf invalid");
       }
+
+      setState(() {
+        _invalidCpf = inv;
+      });
     });
 
     super.initState();
@@ -76,30 +84,57 @@ class _LoginScreen extends State<LoginScreen> {
     print("on submit triggered");
 
     // don't allow empty fields
-    _invalid = _userController.text.isEmpty || _passwordController.text.isEmpty;
-    if (_invalid) return;
+    final inv =
+        _userController.text.isEmpty || _passwordController.text.isEmpty;
+    if (_invalid) {
+      setState(() {
+        _invalid = inv;
+      });
+      return;
+    }
+
+    // show the circle loading
+    setState(() {
+      _doingLogin = true;
+    });
 
     // try to login into sigaa's system
-    // try {
-    final payload = LoginPayload(login: _user, password: _password);
+    try {
+      final payload = LoginPayload(login: _user, password: _password);
 
-    print("trying to login");
-    await system.doLogin(payload);
+      print("trying to login");
+      await system.doLogin(payload);
 
-    // TODO update hive object
+      // get user image and store it locally
+      // final avatar = await system.getUserAvatar();
+      // await saveLogo(avatar);
 
-    // TODO change screen
-    print("changing screen");
-    AppRouter.router.navigateTo(context, AppRoutes.rootRoute.route,
-        transition: AppRoutes.rootRoute.transitionType);
-    // } catch (e) {
-    // print("failed to login");
-    // print(e);
+      // // update hive object
+      // await Hive.openBox<LoginPayload>(LoginPayload.boxName);
+      // final box = Hive.box<LoginPayload>(LoginPayload.boxName);
+      // payload.imagePath = await getImagePath();
 
-    // setState(() {
-    //   _invalid = true;
-    // });
-    // }
+      // if (box.isEmpty) {
+      //   box.add(payload);
+      // } else {
+      //   box.putAt(0, payload);
+      // }
+
+      // box.close();
+
+      // changing screen
+      print("changing screen");
+      AppRouter.router.navigateTo(context, AppRoutes.rootRoute.route,
+          transition: AppRoutes.rootRoute.transitionType);
+    } catch (e) {
+      print("failed to login");
+      print(e);
+
+      setState(() {
+        _invalid = true;
+        _doingLogin = false;
+      });
+    }
   }
 
   @override
@@ -143,23 +178,46 @@ class _LoginScreen extends State<LoginScreen> {
                 title: 'Senha',
                 shouldObscure: true),
 
+            // error
+            Padding(
+              padding: EdgeInsets.only(top: 15.0),
+              child: Center(
+                  child: Text(
+                _invalid ? "Falha no login. Verifique suas credenciais" : "",
+                style: TextStyle(
+                  color: Theme.of(context).errorColor,
+                ),
+                textAlign: TextAlign.center,
+              )),
+            ),
+
             // login button
-            Container(
-              margin: const EdgeInsets.only(top: 20.0),
-              padding: const EdgeInsets.all(20.0),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Theme.of(context).accentColor),
-                      child: Text("ENTRAR"),
-                      onPressed: onSubmit,
+            !_doingLogin
+                ? Container(
+                    margin: const EdgeInsets.only(top: 20.0),
+                    padding: const EdgeInsets.all(20.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                primary: !_invalidCpf
+                                    ? Theme.of(context).accentColor
+                                    : Theme.of(context).disabledColor),
+                            child: Text("ENTRAR"),
+                            onPressed: !_invalidCpf ? onSubmit : () {},
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                          Theme.of(context).accentColor),
                     ),
                   ),
-                ],
-              ),
-            ),
           ]),
         ),
       ),

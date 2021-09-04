@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sigaa_student/components/scaffold/scaffold.dart';
 
 class ClassFocused extends StatelessWidget {
-  static const id = "Screen_to_show_specific_class_info";
-
   const ClassFocused({Key? key}) : super(key: key);
 
   @override

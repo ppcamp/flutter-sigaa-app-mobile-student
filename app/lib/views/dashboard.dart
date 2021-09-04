@@ -6,8 +6,6 @@ import 'package:sigaa_student/models/subjects/subjects.dart';
 
 // ClassScreen the statefulwidget
 class DashboardScreen extends StatefulWidget {
-  static const id = "Screen_used_to_show_all_elements";
-
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
 }

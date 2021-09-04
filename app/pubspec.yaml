@@ -41,6 +41,7 @@ dependencies:
   flutter_login: ^2.2.1
   font_awesome_flutter: ^9.1.0
   palette_generator: ^0.3.1
+  path_provider: ^2.0.3
 
 dev_dependencies:
   build_runner: ^2.1.1

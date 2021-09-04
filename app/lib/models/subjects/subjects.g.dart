@@ -23,7 +23,8 @@ class SubjectsAdapter extends TypeAdapter<Subjects> {
       period: fields[4] as String?,
       acronym: fields[3] as String?,
       updatedAt: fields[5] as DateTime?,
-    )..url = fields[6] as String?;
+      url: fields[6] as String?,
+    );
   }
 
   @override

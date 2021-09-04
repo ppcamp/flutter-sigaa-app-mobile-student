@@ -57,18 +57,22 @@ class Scrappers {
     while (response.statusCode == statusCode) {
       print("redirect #${redirects++}");
       final redirecturl = response.headers['location']![0];
-      response = await client!.post(redirecturl,
-          options: Options(
-              followRedirects: false,
-              validateStatus: (status) {
-                return status! < 500;
-              }));
+      try {
+        response = await client!.post(redirecturl,
+            options: Options(
+                followRedirects: false,
+                validateStatus: (status) {
+                  return status! < 500;
+                }));
+      } catch (err) {
+        rethrow;
+      }
     }
     return response;
   }
 
-  /// setUrls will load the SystemUrls into this scrapper component
-  Future<void> setUrls() async {
+  /// setup will load the SystemUrls into this scrapper component
+  Future<void> setup() async {
     if (this.urls == null) {
       if (!Hive.isBoxOpen(SystemUrls.boxName)) {
         await Hive.openBox<SystemUrls>(SystemUrls.boxName);
@@ -82,61 +86,65 @@ class Scrappers {
 
   /// Does a [login] into SIGAA's system
   Future<void> doLogin(LoginPayload login) async {
-    // Login into system
-    final loginConfig = {
-      "width": "1366",
-      "height": "768",
-      "urlRedirect": "",
-      "subsistemaRedirect": "",
-      "acao": "",
-      "acessibilidade": ""
-    };
+    try {
+      // Login into system
+      final loginConfig = {
+        "width": "1366",
+        "height": "768",
+        "urlRedirect": "",
+        "subsistemaRedirect": "",
+        "acao": "",
+        "acessibilidade": ""
+      };
 
-    var payload = login.toMap();
-    payload.addAll(loginConfig);
+      var payload = login.toMap();
+      payload.addAll(loginConfig);
 
-    final url = urls!.where((url) => url.location == 'login').first;
+      final url = urls!.where((url) => url.location == 'login').first;
 
-    // due to a bad implementation/use of http status codes,
-    // we'll need to make a klude for every 302 http response
-    // https://stackoverflow.com/a/52542443/10013122
-    Response r = await client!.post(url.url,
-        data: payload,
-        options: Options(
-            followRedirects: false,
-            validateStatus: (status) {
-              return status! == 302;
-            }));
+      // due to a bad implementation/use of http status codes,
+      // we'll need to make a klude for every 302 http response
+      // https://stackoverflow.com/a/52542443/10013122
+      Response r = await client!.post(url.url,
+          data: payload,
+          options: Options(
+              followRedirects: false,
+              validateStatus: (status) {
+                return status! == 302;
+              }));
 
-    r = await handleRedirects(r, 302);
+      r = await handleRedirects(r, 302);
 
-    // parse the home page
-    final tree = parseHtmlDocument(r.data);
+      // parse the home page
+      final tree = parseHtmlDocument(r.data);
 
-    // get id
-    var el = tree.getElementsByName('id').first;
-    final id = Re.firstGroup(el.toString(), r'value=\s*"(.*)"')!;
+      // get id
+      var el = tree.getElementsByName('id').first;
+      final id = Re.firstGroup(el.toString(), r'value=\s*"(.*)"')!;
 
-    // get jscookie action
-    el = tree.getElementsByTagName('DIV').firstWhere(
-        (element) => element.parent!.id == 'menu:form_menu_discente');
-    final jscookact = Re.firstGroup(el.toString(), r'id=\s*"(.*)"')! +
-        ':A]#{ curriculo.popularBuscaGeral }';
+      // get jscookie action
+      el = tree.getElementsByTagName('DIV').firstWhere(
+          (element) => element.parent!.id == 'menu:form_menu_discente');
+      final jscookact = Re.firstGroup(el.toString(), r'id=\s*"(.*)"')! +
+          ':A]#{ curriculo.popularBuscaGeral }';
 
-    // get javax.faces.ViewState
-    el = tree.getElementsByName('javax.faces.ViewState').first;
-    final jsfaces = Re.firstGroup(el.toString(), r'value=\s*"(.*)"')!;
+      // get javax.faces.ViewState
+      el = tree.getElementsByName('javax.faces.ViewState').first;
+      final jsfaces = Re.firstGroup(el.toString(), r'value=\s*"(.*)"')!;
 
-    final data = {
-      "menu:form_menu_discente": "menu:form_menu_discente",
-      "id": id,
-      "jscook_action": jscookact,
-      "javax.faces.ViewState": jsfaces
-    };
+      final data = {
+        "menu:form_menu_discente": "menu:form_menu_discente",
+        "id": id,
+        "jscook_action": jscookact,
+        "javax.faces.ViewState": jsfaces
+      };
 
-    currentScreenData = data;
+      currentScreenData = data;
 
-    currentpage = r.data;
+      currentpage = r.data;
+    } catch (err) {
+      rethrow;
+    }
   }
 
   /// This method reads the [currentpage] and get the current classes for this
@@ -173,5 +181,24 @@ class Scrappers {
     }
 
     return subjects;
+  }
+
+  /// This method reads the [currentpage] and get the user's image
+  Future<dynamic> getUserAvatar() async {
+    if (currentpage == null) throw _EmptyScreen;
+
+    try {
+      final url = urls!.where((url) => url.location == 'main').first;
+
+      final tree = parseHtmlDocument(currentpage!);
+      final tbody = tree.querySelector('.foto > img')!;
+      final img = tbody.getAttribute('src')!;
+      final imgurl = url.url + img;
+
+      final response = await client!.get(imgurl);
+      return response.data;
+    } catch (err) {
+      rethrow;
+    }
   }
 }

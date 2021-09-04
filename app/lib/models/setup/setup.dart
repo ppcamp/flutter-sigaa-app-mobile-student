@@ -1,9 +1,9 @@
 import 'package:hive/hive.dart';
 
-part "firstrun.g.dart";
+part "setup.g.dart";
 
 @HiveType(typeId: 0)
-class FirstRun extends HiveObject {
+class Setup extends HiveObject {
   static const boxName = 'firstrunBox';
 
   @HiveField(0)
