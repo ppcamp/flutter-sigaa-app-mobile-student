@@ -41,7 +41,7 @@
 					"--mode=null-safety"
 				],
 				"group": "none",
-				"label": "dart: check nullsafety",
+				"label": "flutter: check nullsafety",
 				"problemMatcher": []
 			},
 			{
@@ -53,10 +53,11 @@
 					"run",
 					"build_runner",
 					"build",
-					"--delete-conflicting-outputs"
+					// "watch",
+					"--delete-conflicting-outputs",
 				],
 				"group": "build",
-				"label": "flutter: generate dto hive"
+				"label": "flutter: generate decorators elements"
 			},
 			{
 				"type": "shell",
@@ -106,6 +107,22 @@
 				"args": [],
 				"problemMatcher": [],
 				"label": "dart: dartdoc"
+			}
+		]
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+		{
+			"name": "Flutter",
+			"type": "dart",
+			"request": "launch",
+			"program": "lib/main.dart"
+		},
+			{
+				"name": "Dart & Flutter",
+				"request": "launch",
+				"type": "dart"
 			}
 		]
 	}

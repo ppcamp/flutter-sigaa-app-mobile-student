@@ -61,8 +61,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Padding(
                     padding: EdgeInsets.all(20.0),
                     child: Icon(
-                      Icons.check_circle,
-                      color: Colors.deepPurple,
+                      Icons.done_all,
+                      color: Theme.of(context).accentColor,
                       size: 30.0,
                     ))
               ],

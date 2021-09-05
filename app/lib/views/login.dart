@@ -1,8 +1,12 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:sigaa_student/components/avatar/avatar.dart';
 import 'package:sigaa_student/components/fields/text_input.dart';
 import 'package:sigaa_student/config/routes/router.dart';
 import 'package:sigaa_student/config/routes/routes.dart';
+import 'package:sigaa_student/config/setup/globals.dart';
 import 'package:sigaa_student/models/login/login.dart';
 import 'package:sigaa_student/services/network/scrappers.dart';
 import 'package:sigaa_student/utils/images.dart';
@@ -80,6 +84,8 @@ class _LoginScreen extends State<LoginScreen> {
     super.dispose();
   }
 
+  /// onSubmit is the function triggered when the user click on the login btn
+  /// This function will try to login into sigaa's system
   void onSubmit() async {
     print("on submit triggered");
 
@@ -106,21 +112,22 @@ class _LoginScreen extends State<LoginScreen> {
       await system.doLogin(payload);
 
       // get user image and store it locally
-      // final avatar = await system.getUserAvatar();
-      // await saveLogo(avatar);
+      final avatar = await system.getUserAvatar();
+      await saveAvatar(avatar);
+      payload.imagePath = await getImagePath();
+      userAvatar = getLogoWidget(img: MemoryImage(Uint8List.fromList(avatar)));
 
-      // // update hive object
-      // await Hive.openBox<LoginPayload>(LoginPayload.boxName);
-      // final box = Hive.box<LoginPayload>(LoginPayload.boxName);
-      // payload.imagePath = await getImagePath();
+      // update hive object
+      await Hive.openBox<LoginPayload>(LoginPayload.boxName);
+      final box = Hive.box<LoginPayload>(LoginPayload.boxName);
 
-      // if (box.isEmpty) {
-      //   box.add(payload);
-      // } else {
-      //   box.putAt(0, payload);
-      // }
+      if (box.isEmpty) {
+        await box.add(payload);
+      } else {
+        await box.putAt(0, payload);
+      }
 
-      // box.close();
+      await box.close();
 
       // changing screen
       print("changing screen");

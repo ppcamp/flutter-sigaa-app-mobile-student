@@ -184,18 +184,23 @@ class Scrappers {
   }
 
   /// This method reads the [currentpage] and get the user's image
-  Future<dynamic> getUserAvatar() async {
+  Future<List<int>> getUserAvatar() async {
     if (currentpage == null) throw _EmptyScreen;
 
     try {
-      final url = urls!.where((url) => url.location == 'main').first;
-
       final tree = parseHtmlDocument(currentpage!);
       final tbody = tree.querySelector('.foto > img')!;
       final img = tbody.getAttribute('src')!;
-      final imgurl = url.url + img;
 
-      final response = await client!.get(imgurl);
+      // getting the link to img src
+      final url = urls!.where((url) => url.location == 'main').first.url;
+      final uri = Uri.parse(url);
+      // see https://suragch.medium.com/understanding-the-uri-class-in-dart-from-examples-7015a3643e47
+      final imgurl =
+          Uri(scheme: uri.scheme, host: uri.authority).toString() + img;
+
+      final response = await client!
+          .get(imgurl, options: Options(responseType: ResponseType.bytes));
       return response.data;
     } catch (err) {
       rethrow;

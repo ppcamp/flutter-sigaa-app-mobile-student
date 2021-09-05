@@ -1,5 +1,7 @@
 import 'package:hive/hive.dart';
 
+part "login.g.dart";
+
 @HiveType(typeId: 3)
 class LoginPayload extends HiveObject {
   static const boxName = 'loginBox';
