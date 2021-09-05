@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 import 'package:sigaa_student/components/scaffold/scaffold.dart';
 import 'package:sigaa_student/models/subjects/subjects.dart';
+import 'package:sigaa_student/services/sync.dart';
 
 // ClassScreen the statefulwidget
 class DashboardScreen extends StatefulWidget {
@@ -13,31 +14,23 @@ class DashboardScreen extends StatefulWidget {
 // _ClassScreenState is the stateless object
 class _DashboardScreenState extends State<DashboardScreen> {
   final _items = <Subjects>[];
-  late Box<Subjects> _box;
+  late SyncService system;
 
   @override
   void dispose() {
-    this._box.close();
-
     super.dispose();
   }
 
   @override
   void initState() {
+    system = SyncService();
     init();
     super.initState();
   }
 
+  /// A function executed when the object is created
   void init() async {
-    if (!Hive.isBoxOpen(Subjects.boxName)) {
-      await Hive.openBox<Subjects>(Subjects.boxName);
-    }
-
-    this._box = Hive.box<Subjects>(Subjects.boxName);
-
-    setState(() {
-      this._items.addAll(this._box.values);
-    });
+    await system.updateClasses();
   }
 
   @override
@@ -74,15 +67,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
       return ListView.builder(
         padding: const EdgeInsets.all(16.0),
         itemBuilder: (context, i) {
-          final String place = "test"; //_items[i].place;
-          final String title = "teste"; // _items[i].acronym ?? "NONE";
-          final String subtitle = "teste"; // _items[i].classname;
+          final String place = _items[i].place;
+          final String title = _items[i].acronym ?? "";
+          final String subtitle = _items[i].classname;
 
           return Card(
               child: InkWell(
                   splashColor: Colors.blue.withAlpha(30),
                   onTap: () {
-                    print({i, "tapped on this card"});
+                    print("tapped on $title");
                   },
                   child: SizedBox(
                     width: 300,

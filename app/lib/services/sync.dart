@@ -36,13 +36,11 @@ class SyncService {
       // update hive object
       await Hive.openBox<LoginPayload>(LoginPayload.boxName);
       final box = Hive.box<LoginPayload>(LoginPayload.boxName);
-
       if (box.isEmpty) {
         await box.add(payload);
       } else {
         await box.putAt(0, payload);
       }
-
       await box.close();
 
       return true;
@@ -50,6 +48,15 @@ class SyncService {
       print(err);
       return false;
     }
+  }
+
+  Future<bool> updateClasses() async {
+    // TODO this function should:
+
+    // try to login using the stored credentials
+    // if some error occurred, should try once, if the error persist, logout
+    // get the data and update it.
+    return true;
   }
 
   /// This method will delete all data stored locally.

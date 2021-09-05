@@ -9,16 +9,11 @@ The scrapping will be made with a go wrapper/lib.
 
 ## TODO:
 
-- [ ] Login page
-- [ ] Local storage (to hold configs and data offline)
-- [ ] Golang Scrappers:
-  - [ ] Student's current period classes
-  - [ ] Student's news
-  - [ ] Class student' participants
-  - [ ] Student's scores
-  - [ ] Student's presence
+- [x] Login page
+- [x] Local storage (to hold configs and data offline)
 - [ ] Screens:
-  - [ ] Login
+  - [x] Login
+  - [x] Dashboard
   - [ ] Calendar grade
   - [ ] Student's indices
   - [ ] ClassFocused
