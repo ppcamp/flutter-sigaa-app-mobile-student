@@ -1,16 +1,9 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:sigaa_student/components/avatar/avatar.dart';
 import 'package:sigaa_student/components/fields/text_input.dart';
 import 'package:sigaa_student/config/routes/router.dart';
 import 'package:sigaa_student/config/routes/routes.dart';
-import 'package:sigaa_student/config/setup/globals.dart';
 import 'package:sigaa_student/models/login/login.dart';
-import 'package:sigaa_student/services/network/scrappers.dart';
 import 'package:sigaa_student/services/sync.dart';
-import 'package:sigaa_student/utils/images.dart';
 import 'package:sigaa_student/utils/validators.dart';
 
 class LoginScreen extends StatefulWidget {

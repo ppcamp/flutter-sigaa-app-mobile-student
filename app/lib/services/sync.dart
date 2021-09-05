@@ -30,7 +30,7 @@ class SyncService {
       // get user image and store it locally
       final avatar = await system.getUserAvatar();
       await saveAvatar(avatar);
-      payload.imagePath = await getImagePath();
+      payload.imagePath = await getAvatarPath();
       userAvatar = getLogoWidget(img: MemoryImage(Uint8List.fromList(avatar)));
 
       // update hive object
@@ -47,6 +47,32 @@ class SyncService {
 
       return true;
     } catch (err) {
+      print(err);
+      return false;
+    }
+  }
+
+  /// This method will delete all data stored locally.
+  /// See [resetData]
+  static Future<bool> logout() async {
+    return resetData();
+  }
+
+  /// This method will delete all data stored locally (some type of reset)
+  static Future<bool> resetData() async {
+    print("resetting data");
+    try {
+      // delete the avatar image
+      print("deleting avatar");
+      await deleteAvatar();
+
+      // delete hive boxes
+      print("deleting hive boxes");
+      await Hive.deleteFromDisk();
+
+      return true;
+    } catch (err) {
+      print(err);
       return false;
     }
   }

@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:sigaa_student/views/about.dart';
 import 'package:sigaa_student/views/calendar.dart';
 import 'package:sigaa_student/views/class_focused.dart';
 import 'package:sigaa_student/views/dashboard.dart';
@@ -31,4 +32,8 @@ final handleGrid = Handler(
 
 final handleLoginScreen = Handler(
   handlerFunc: (context, parameters) => LoginScreen(),
+);
+
+final handleAboutScreen = Handler(
+  handlerFunc: (context, parameters) => AboutScreen(),
 );

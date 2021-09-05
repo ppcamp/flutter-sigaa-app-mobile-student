@@ -14,7 +14,7 @@ Future<String> getDirPath() async {
 }
 
 /// getImagePath retrieves the path of the avatar/logo image locally
-Future<String> getImagePath() async {
+Future<String> getAvatarPath() async {
   final path = await getDirPath();
   final logopath = "$path/$AvatarName";
 
@@ -27,7 +27,7 @@ Future<Uint8List> getAvatarBytes({String? avatarpath}) async {
   print("reading image");
 
   try {
-    String p = avatarpath ?? await getImagePath();
+    String p = avatarpath ?? await getAvatarPath();
     File file = new File(p);
     final img = file.readAsBytesSync();
     // return Image.memory(img);
@@ -43,8 +43,19 @@ Future<void> saveAvatar(List<int> data) async {
   print("saving image");
 
   try {
-    File file = File(await getImagePath());
+    File file = File(await getAvatarPath());
     file.writeAsBytesSync(data);
+  } catch (err) {
+    rethrow;
+  }
+}
+
+/// This will delete the avatar image saved previously
+Future<void> deleteAvatar() async {
+  try {
+    final img = await getAvatarPath();
+    final file = File(img);
+    await file.delete();
   } catch (err) {
     rethrow;
   }

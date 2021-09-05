@@ -3,8 +3,13 @@ import 'package:sigaa_student/components/clippers/semi_circle_transformed.dart';
 import 'package:sigaa_student/config/routes/router.dart';
 import 'package:sigaa_student/config/routes/routes.dart';
 import 'package:sigaa_student/config/setup/globals.dart';
+import 'package:sigaa_student/services/sync.dart';
+
+void logOut() {}
 
 getAppDrawer(BuildContext context) {
+  final studentRA = '2016001942';
+
   return Drawer(
     child: ListView(
       padding: EdgeInsets.zero,
@@ -32,7 +37,7 @@ getAppDrawer(BuildContext context) {
                                           .scaffoldBackgroundColor,
                                       fontWeight: FontWeight.bold)),
                               TextSpan(
-                                  text: "2016000000",
+                                  text: studentRA,
                                   style: TextStyle(
                                       color: Theme.of(context)
                                           .scaffoldBackgroundColor))
@@ -46,7 +51,16 @@ getAppDrawer(BuildContext context) {
                               padding: EdgeInsets.only(
                                   bottom: 8, top: 8, left: 15, right: 15),
                               minimumSize: Size.zero),
-                          onPressed: () => print("exited"),
+                          onPressed: () {
+                            // clean all objects (including images)
+                            SyncService.logout();
+
+                            // Then close the drawer and redirect to login scr
+                            AppRouter.router.navigateTo(
+                                context, AppRoutes.loginScren.route,
+                                transition:
+                                    AppRoutes.loginScren.transitionType);
+                          },
                           child: Text(
                             'SAIR',
                             style: TextStyle(
@@ -103,6 +117,17 @@ getAppDrawer(BuildContext context) {
               // Then close the drawer
               AppRouter.router.navigateTo(context, AppRoutes.classFocused.route,
                   transition: AppRoutes.classFocused.transitionType),
+        ),
+
+        // Sobre
+        ListTile(
+          title: Text('Sobre'),
+          onTap: () =>
+              // Update the state of the app.
+              // ...
+              // Then close the drawer
+              AppRouter.router.navigateTo(context, AppRoutes.aboutScren.route,
+                  transition: AppRoutes.aboutScren.transitionType),
         ),
       ],
     ),
