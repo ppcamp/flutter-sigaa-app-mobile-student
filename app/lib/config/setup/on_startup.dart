@@ -21,7 +21,7 @@ Future<void> onStartup() async {
   if (box.isEmpty) {
     print("box isn't configured yet. Configuring...");
     await firstRun();
-    box.add(Setup());
+    box.add(Setup(currentVersion: AppVersion));
   }
   box.close();
 

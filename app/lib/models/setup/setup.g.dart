@@ -16,15 +16,23 @@ class SetupAdapter extends TypeAdapter<Setup> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Setup()..isConfigured = fields[0] as bool;
+    return Setup(
+      currentVersion: fields[1] as String,
+    )
+      ..isConfigured = fields[0] as bool
+      ..isDarkTheme = fields[2] as bool;
   }
 
   @override
   void write(BinaryWriter writer, Setup obj) {
     writer
-      ..writeByte(1)
+      ..writeByte(3)
       ..writeByte(0)
-      ..write(obj.isConfigured);
+      ..write(obj.isConfigured)
+      ..writeByte(1)
+      ..write(obj.currentVersion)
+      ..writeByte(2)
+      ..write(obj.isDarkTheme);
   }
 
   @override

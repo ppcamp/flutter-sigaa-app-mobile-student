@@ -8,10 +8,10 @@ import 'package:sigaa_student/models/system_urls/system_urls.dart';
 import 'package:sigaa_student/utils/wrappers.dart';
 import 'package:universal_html/parsing.dart';
 
-class Scrappers {
+class ScrappersService {
   /// Scrappers configure the client to make all requests from it.
   /// it configures the [client]
-  Scrappers() {
+  ScrappersService() {
     if (client == null) {
       BaseOptions options = new BaseOptions(
           receiveDataWhenStatusError: true,

@@ -9,6 +9,7 @@ import 'package:sigaa_student/config/routes/routes.dart';
 import 'package:sigaa_student/config/setup/globals.dart';
 import 'package:sigaa_student/models/login/login.dart';
 import 'package:sigaa_student/services/network/scrappers.dart';
+import 'package:sigaa_student/services/sync.dart';
 import 'package:sigaa_student/utils/images.dart';
 import 'package:sigaa_student/utils/validators.dart';
 
@@ -40,7 +41,7 @@ class _LoginScreen extends State<LoginScreen> {
   late String _user;
 
   /// The variable that will make the system's connection
-  late Scrappers system;
+  late SyncService system;
 
   /// will be used to show/hide the login loading object
   late bool _doingLogin;
@@ -55,7 +56,7 @@ class _LoginScreen extends State<LoginScreen> {
     _userController = TextEditingController();
     _password = "";
     _user = "";
-    system = Scrappers()..setup();
+    system = SyncService();
 
     _passwordController.addListener(() {
       _password = _passwordController.text;
@@ -108,26 +109,8 @@ class _LoginScreen extends State<LoginScreen> {
     try {
       final payload = LoginPayload(login: _user, password: _password);
 
-      print("trying to login");
-      await system.doLogin(payload);
-
-      // get user image and store it locally
-      final avatar = await system.getUserAvatar();
-      await saveAvatar(avatar);
-      payload.imagePath = await getImagePath();
-      userAvatar = getLogoWidget(img: MemoryImage(Uint8List.fromList(avatar)));
-
-      // update hive object
-      await Hive.openBox<LoginPayload>(LoginPayload.boxName);
-      final box = Hive.box<LoginPayload>(LoginPayload.boxName);
-
-      if (box.isEmpty) {
-        await box.add(payload);
-      } else {
-        await box.putAt(0, payload);
-      }
-
-      await box.close();
+      final success = await system.login(payload);
+      if (!success) throw "occurred a problem in the sync service";
 
       // changing screen
       print("changing screen");
